@@ -1,0 +1,213 @@
+html {
+    overflow-y: auto;
+}
+
+.ui-page,
+.ui-bar-b,
+.ui-overlay-b {
+    background-color: black;
+}
+
+.ui-page-theme-b a,
+html .ui-bar-b a,
+html .ui-body-b a,
+html body .ui-group-theme-b a,
+.ui-btn, label.ui-btn {
+    font-weight: normal;
+}
+
+.ui-header {
+    background-color: black;
+    border: none;
+    border-bottom: 2px solid #2ad;
+}
+
+.ui-header .ui-title {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 20%;
+}
+
+.menu-item .ui-btn {
+    font-weight: normal;
+}
+
+.menu-item.ui-last-child {
+    /* border: none;
+    border-top: 2px solid #2ad; */
+}
+
+.center80 {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.center90 {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.input {
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.ui-focus,.ui-btn:focus {
+    border: 1px solid #2ad !important;
+}
+
+.ui-btn.ui-state-disabled {
+    opacity: 1;
+    color: grey;
+}
+
+.ui-btn-right, .ui-btn-left {
+    background-color: transparent !important;
+    border: none;
+}
+
+.ui-li-count {
+    border-width: 0;
+    background: transparent !important;
+}
+
+.liAlias {
+    font-family: monospace;
+    font-weight: normal !important;
+}
+
+.password {
+    font-size:18px;
+    font-family: monospace;
+    margin:18px auto 8px auto;
+    text-align:center;
+    padding:10px;
+    opacity: 1;
+    color: #2ad;
+}
+
+.password-disabled {
+    color:#294e5c;
+}
+
+.qrcode {
+    display:table;
+    margin: 0 auto;
+    padding: 0 ;
+    border: none;
+}
+
+.popupMenu {
+   min-width: 130px;
+   position: fixed;
+   top: 45px;
+   right: 0;
+}
+
+.popupClipboard {
+    display: block;
+    top: 230px;
+    left: 10%;
+    right: 10%;
+    opacity: 0.95;
+    text-align: center;
+    background-color:black;
+    padding: 20px;
+    border: 2px solid white;
+}
+
+.code {
+    white-space: pre;
+    font-family: monospace;
+    font-size: 14px;
+    color: #22aadd;
+}
+
+.tab {
+    margin-left: 20px;
+}
+
+.about li {
+    padding: 0.4em;
+}
+
+.about {
+    font-size: 14px;
+    padding: 3px;
+    font-weight: normal;
+    hyphens: auto;
+}
+
+.about ul {
+    padding-left: 1em;
+}
+
+.about pre {
+    font-size: 14px;
+    color: #22aadd;
+}
+
+.ui-page-theme-b div.ui-input-text {
+    background-color: black;
+    border: 0;
+    border-bottom: 2px solid #555;
+}
+
+.ui-page-theme-b div.ui-input-text.ui-focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 0 !important;
+    border-bottom: 2px solid #2ad !important;
+}
+
+div.ui-input-text:after {
+    content: "";
+    background-color: #555;
+    position: absolute;
+    bottom: -1px; left: -1px; height: 8px; width: 2px;
+}
+
+div.ui-input-text:before {
+    content: "";
+    background-color: #555;
+    position: absolute;
+    bottom: -1px; right: -1px; height: 8px; width: 2px;
+}
+
+div.ui-input-text.ui-focus:after {
+    content: "";
+    background-color: #2ad;
+    position: absolute;
+    bottom: -1px; left: -1px; height: 8px; width: 2px;
+}
+
+div.ui-input-text.ui-focus:before {
+    content: "";
+    background-color: #2ad;
+    position: absolute;
+    bottom: -1px; right: -1px; height: 8px; width: 2px;
+}
+
+.message {
+    color: #f00;
+    font-weight: bold;
+    font-size: 12px;
+    clear: both;
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    width: 100%;
+}
+
+.promo {
+    margin: 0 auto;
+}
+
+#aliasList  {
+    max-height: 174px;
+    overflow: auto;
+}

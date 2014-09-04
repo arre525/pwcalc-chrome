@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="js/libs/jquery-mobile/jquery.mobile-1.4.3.min.css" />
+        <link rel="stylesheet" href="css/app.css" />
+        <title>SHA1 Password Calculator</title>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="js/libs/jquery/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/libs/jquery-mobile/jquery.mobile-1.4.3.min.js"></script>
+        <script type="text/javascript" src="js/libs/qrcode.js"></script>
+        <script type="text/javascript" src="js/libs/sha1.js"></script>
+        <script type="text/javascript" src="js/app.model.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+
+        <div data-role="page" data-theme="b" id="index" class="index">
+
+            <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b"
+                 id="header" data-fullscreen="false">
+                <img src="img/pwcalc_32.png" alt="pwcalc" class="ui-btn-left icon-left"/>
+                <a href="#about" data-icon="info" data-iconpos="notext" data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" ></a>
+                <h2>SHA1 Password Calculator</h2>
+            </div>
+
+            <div data-role="content" class="ui-nodisc-icon center80">
+                <input id="alias" name="alias" type="text" class="input ui-state-disabled" placeholder="alias"  autocomplete="off"
+                       data-clear-btn="true" spellcheck="false" data-corners="false" />
+                <input id="secret" name="secret" type="password" class="input ui-state-disabled" placeholder="secret" autocomplete="off"
+                       data-clear-btn="true" data-corners="false">
+                <p id="password" class="password">
+
+                <div class="ui-grid-a center80">
+                    <div class="ui-block-a">
+                        <a href="#" id="btCopy" class="ui-btn ui-corner-all ui-state-disabled">
+                            Copy
+                        </a>
+                    </div>
+                    <div class="ui-block-b">
+                        <select id="pwlen" name="pwlen" data-native-menu="true" class="ui-btn-inline ui-state-disabled">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                            <option value="14">14</option>
+                            <option value="16">16</option>
+                            <option value="18">18</option>
+                            <option value="20">20</option>
+                            <option value="22">22</option>
+                            <option value="24">24</option>
+                            <option value="26">26</option>
+                            <option value="28">28</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div id="aliasCollapse" data-role="collapsible" data-collapsed="true" data-mini="true" class="ui-state-disabled">
+                    <h4>Recent Aliases (<span id="aliasCount">?</span>)</h4>
+                    <ul data-role="listview" id="aliasList" data-split-icon="delete" data-scroll="true">
+                    </ul>
+                </div>
+                <p style="margin-bottom: 25px;">
+                <div id="qrcode" class="ui-btn qrcode"></div>
+
+                <div id="message" class="message"></div>
+            </div><!-- role="content"-->
+
+        </div><!-- data-role="page" -->
+
+        <div data-role="page" data-theme="b" id="about" class="about" >
+
+            <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b" class="ui-nodisc-icon">
+                <h1>About Pwcalc</h1>
+                <a href="#index" data-icon="back" data-iconpos="notext"
+                   data-transition="slide" data-direction="reverse">Back</a>
+            </div>
+
+            <div data-role="content" class="center90">
+                <p>
+                    The SHA1 Password Calculator <i>Pwcalc</i> works as safely as a meat grinder:
+                       If you put in a pig and turn the crank,
+                       you will get minced meat.
+                       But pushing back the minced meat while turning the crank
+                       backwards, will not bring back the pig.<br>
+                    That is quite secure.
+                <p>
+                    <br>
+                    In a simplified form it looks like this:
+                    <p>
+                    <span class="code tab">secret word + alias | SHA1 | Base64</span>
+                    <br>
+                    <span class="code tab">  = password</span>
+                <p>
+                   You chose a single secret word
+                   and an alias for the service the password is needed for.
+                <p>
+                   <span class="code tab">mysecret + gmail.com</span>
+                <p>
+                   This is combined to a single string (the pic).
+                    <p>
+                    <span class="code tab">mysecretgmail.com</span>
+                <p>
+                    Next the cryptographic hash function
+                    <span class="code">SHA1</span> is applied to this compound word,
+                    which produces a 160-bit hash value typically rendered
+                    as hexadecimal number:
+                <p class="tab">
+                    <span class="code">5e63</span>
+                    <span class="code">2f05</span>
+                    <span class="code">760b</span>
+                    <span class="code">5563</span>
+                    <span class="code">a1d9</span>
+
+                    <br class="tab">
+                    <span class="code">ad9e</span>
+                    <span class="code">e555</span>
+                    <span class="code">540d</span>
+                    <span class="code">7c19</span>
+                    <span class="code">9c65</span>
+                <p>
+                    These 40 digits are then taken as (binary) input for the
+                    <span class="code">Base64</span> function which
+                    produces the password (the minced meat):
+                <p class="tab">
+                    <span class="code">XmMv</span>
+                    <span class="code">BXYL</span>
+                    <span class="code">VWOh</span>
+                    <span class="code">2a2e</span>
+                    <span class="code">5VVU</span>
+                    <span class="code">DXwZ</span>
+                    <span class="code">nGU=</span>
+                <p>
+                    This unique password cannot by any means be traced back to
+                    the secret word or alias.
+                <hr>
+                <ul>
+                    <li>
+                        This password calculation based on SHA1 is deterministic:
+                        when it is invoked twice on an identical word, it always produces
+                        the same password.
+                    </li>
+                    <li>
+                        It is not invertible, meaning that it is not possible to
+                        reconstruct the alias nor the secret word by knowing the password.
+                        It is one way only, like a meat grinder.
+                    </li>
+                    <li>
+                        Even changing a single character in the secret word or alias
+                        results in a completely different password.
+                        This makes it possible to calculate many different passwords
+                        by remembering only one secret word.
+                    </li>
+                    <li>
+                    The Base64 function does not change the quality or uniqueness
+                    of the hash value. It only extends the character set
+                    from hexadecimal [0-9a-f] to [0-9A-Za-z/+=].
+
+                    </li>
+                    <li>
+                        Neither the alias nor the method of how they are
+                        calculated are confidential.
+                        The only confidential part is the secret word.
+                    </li>
+                    <li>
+                        The method is simple and elegant. However it requires some
+                        limitations that are deliberately accepted. E.g. the character
+                        set used for the calculated password cannot be specified precisely.
+                        You can't add more special characters.
+                    </li>
+                </ul>
+                <hr>
+                <p>
+                    Although all this might seem complicated it is actually technically
+                    quite simple.
+                <p>
+                    On standard MacOS X or Linux the you can build
+                    a Password Calculator in a terminal with existing commands :
+                <p>
+                   <textarea class="code" readonly>
+   echo -n "mysecretgmail.com" \
+       | shasum \
+       | xxd -r -p \
+       | base64
+
+   XmMvBXYLVWOh2a2e5VVUDXwZnGU=</textarea>
+                <p>
+                    On Linux replace <span style="font-family:courier;">'shasum'</span> by <span style="font-family:courier;">'sha1sum'</span>.
+                <hr>
+                <p>
+                Version: <span id="version"></span>
+                <p>
+                <div class="promo">
+                    <a href="https://play.google.com/store/apps/details?id=de.pmorjan.TPSM" target="_blank">
+                        <img alt="Android app on Google Play" src="img/playstore.png" style="float:left" />
+                    </a>
+                    <a href="https://chrome.google.com/webstore/detail/sha1-password-calculator/gfdaokhcoidlgljipinbbcafapmmdanb" target="_blank">
+                        <img alt="Android app on Google Play" src="img/webstore.png" style="float:right" />
+                    </a>
+                </div>
+            </div><!-- data-role="content" -->
+        </div><!-- data-role="page" -->
+    </body>
+</html>
