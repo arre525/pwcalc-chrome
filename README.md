@@ -3,6 +3,8 @@ pwcalc-chrome
 
 Google Chrome app to calculate strong cryptographic passwords
 
+![ScreenShot](https://github.com/pmorjan/pwcalc-chrome/raw/master/pwcalc-chrome.png)
+
 Available on the [Chrome Web Store](
 https://chrome.google.com/webstore/detail/gfdaokhcoidlgljipinbbcafapmmdanb
 )
@@ -44,6 +46,5 @@ In plain Linux the password can be calculated like this:
     XmMvBXYLVWOh2a2e5VVUDXwZnGU=
 ````
 
-![ScreenShot](https://github.com/pmorjan/pwcalc-chrome/raw/master/pwcalc-chrome.png)
 
 
