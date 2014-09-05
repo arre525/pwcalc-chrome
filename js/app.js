@@ -55,26 +55,24 @@
         $("#aliasList").listview("refresh");
     };
 
-    function copy () {
+    var copy = function () {
         if (model.password.length < 1) {
             return;
         }
-        var $focus = $( document.activeElement );
         copyToClipboard(model.password);
         model.addAlias();
         updateAliasList();
         popupText("Password coppied to clipboard");
-        $focus.focus();
     }
 
-    function deleteAlias(event) {
+    var deleteAlias = function (event) {
         event.stopPropagation();
         model.deleteAlias($(this).prev().data("alias"));
         updateAliasList();
         $("#aliasCount").text(model.aliases.length);
     }
 
-    function clickAlias() {
+    var clickAlias = function () {
         model.alias = $(this).data("alias");
         model.pwlen = $(this).data("pwlen");
         $("#alias").val(model.alias);
@@ -89,12 +87,14 @@
         var $div = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all">'
                     +text +'<br></div>');
 
-        $div.addClass("popupClipboard")
-            .delay(1000)
-            .appendTo($("#index")[0])
-            .fadeOut(0, function () {
-                $(this).remove();
-            });
+        setTimeout(function () {
+            $div.addClass("popupClipboard")
+                .delay(1000)
+                .appendTo($("#index")[0])
+                .fadeOut(0, function () {
+                    $(this).remove();
+                });
+        }, 200);
     };
 
     var copyToClipboard = function (text) {
@@ -126,10 +126,12 @@
 
         $("#btCopy").on("click", copy);
 
-        $("#index").keydown(function (event) {
+        $("body").keydown(function (event) {
             if ((event.metaKey || event.ctrlKey) && event.keyCode === KEY_CODE_RETURN) {
-                $("#btCopy").trigger("click");
                 event.preventDefault();
+                var $focus = $( document.activeElement );
+                $("#btCopy").trigger("click");
+                $focus.focus();
             }
         });
 
