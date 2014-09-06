@@ -35,6 +35,9 @@ app.model = function () {
     });
 
     o.addAlias = function () {
+        if (/\s/.test(this.alias)) {
+            throw new Error("addAlias: alias contains white space");
+        }
         // first try to update pwlen of existing alias
         var aliasIsNew = true;
         for (var i = 0, l = _aliases.length; i < l; i++) {
