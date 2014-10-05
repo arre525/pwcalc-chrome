@@ -78,7 +78,7 @@
         $("#alias").val(model.alias);
         $("#pwlen").val(model.pwlen).selectmenu("refresh");
         $("#aliasCollapse").collapsible("collapse");
-        $("#alias").focus();
+        $("#alias").focus();    // work-around clear-btn
         $("#secret").focus();
         updateUI();
     }
@@ -160,10 +160,16 @@
         model.getLocalStorage(function () {
             $(":input").removeClass("ui-state-disabled");
             $("#version").text(model.version);
+            $("#alias").val(model.alias);
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
             updateAliasList();
             updateUI();
-            $("#alias").focus();
+            if (model.alias) {
+                $("#alias").focus(); // work-around clear-btn
+                $("#secret").focus();
+            } else {
+                $("#alias").focus();
+            }
         });
 
     });

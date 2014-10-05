@@ -43,12 +43,14 @@ app.model = function () {
         for (var i = 0, l = _aliases.length; i < l; i++) {
             if (_aliases[i].alias === this.alias) {
                 _aliases[i].pwlen = this.pwlen;
+                _aliases[i].last = 1;
                 aliasIsNew = false;
-                break;
+            } else {
+                delete _aliases[i].last;
             }
         }
         if (aliasIsNew) {
-            _aliases.push({ "alias": this.alias, "pwlen": this.pwlen });
+            _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
         }
         chrome.storage.local.set({ "aliases": _aliases }, null);
     };
@@ -63,10 +65,15 @@ app.model = function () {
     };
 
     o.getLocalStorage = function (callback) {
+        var that = this;
         chrome.storage.local.get(["aliases"], function (obj) {
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
                     _aliases.push(item);
+                    if (item.last) {
+                        that.alias = item.alias;
+                        that.pwlen = item.pwlen;
+                    }
                 });
             }
             callback();
