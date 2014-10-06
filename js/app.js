@@ -157,11 +157,17 @@
         $("#aliasList").on("click", "li .liAlias", clickAlias);
         $("#aliasList").on("click", "li .liDelete", deleteAlias);
 
+        $("#restoreLast").click(function () {
+            model.restoreLast = $(this).is(":checked");
+        });
+
         model.getLocalStorage(function () {
             $(":input").removeClass("ui-state-disabled");
             $("#version").text(model.version);
             $("#alias").val(model.alias);
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
+            console.log(model.restoreLast);
+            $("#restoreLast").prop("checked", model.restoreLast);
             updateAliasList();
             updateUI();
             if (model.alias) {

@@ -4,6 +4,7 @@ app.model = function () {
 
     "use strict";
     var _aliases = [];
+    var _restoreLast = true;
 
     var o = {
         alias: "",
@@ -31,6 +32,13 @@ app.model = function () {
                         0 : (l.alias.toLowerCase() < r.alias.toLowerCase() ? -1 : 1);
                 });
             }
+        },
+        "restoreLast": {
+            get: function () { return _restoreLast; },
+            set: function (newValue) {
+                _restoreLast = newValue;
+                chrome.storage.local.set({ "restoreLast": _restoreLast }, null);
+            }
         }
     });
 
@@ -43,14 +51,20 @@ app.model = function () {
         for (var i = 0, l = _aliases.length; i < l; i++) {
             if (_aliases[i].alias === this.alias) {
                 _aliases[i].pwlen = this.pwlen;
-                _aliases[i].last = 1;
+                if (this.restoreLast) {
+                    _aliases[i].last = 1;
+                }
                 aliasIsNew = false;
             } else {
                 delete _aliases[i].last;
             }
         }
         if (aliasIsNew) {
-            _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
+            if (this.restoreLast) {
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
+            } else {
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen});
+            }
         }
         chrome.storage.local.set({ "aliases": _aliases }, null);
     };
@@ -66,7 +80,7 @@ app.model = function () {
 
     o.getLocalStorage = function (callback) {
         var that = this;
-        chrome.storage.local.get(["aliases"], function (obj) {
+        chrome.storage.local.get(["aliases", "restoreLast"], function (obj) {
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
                     _aliases.push(item);
@@ -75,6 +89,9 @@ app.model = function () {
                         that.pwlen = item.pwlen;
                     }
                 });
+            }
+            if (obj.hasOwnProperty("restoreLast")) {
+                _restoreLast = obj.restoreLast;
             }
             callback();
         });

@@ -17,10 +17,26 @@
 
         <div data-role="page" data-theme="b" id="index" class="index">
 
+            <div data-role="popup" id="popupMenu" data-theme="b" data-history="false" data-position-to="window" class="popupMenu">
+                <ul data-role="listview" data-icon="false" data-inset="false">
+                    <li class="menu-item">
+                        <a href="#settings" data-transition="slide">
+                            Settings
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#about" data-transition="slide">
+                            About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b"
                  id="header" data-fullscreen="false">
                 <img src="img/pwcalc_32.png" alt="pwcalc" class="ui-btn-left icon-left"/>
-                <a href="#about" data-icon="info" data-iconpos="notext" data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" ></a>
+                <a href="#popupMenu" data-rel="popup" data-icon="bars" data-iconpos="notext" id="btMenu"
+                   data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" >Popup</a>
                 <h2>SHA1 Password Calculator</h2>
             </div>
 
@@ -215,5 +231,23 @@
                 </div>
             </div><!-- data-role="content" -->
         </div><!-- data-role="page" -->
+
+
+        <div data-role="page" data-theme="b"  id="settings" class="settings" >
+            <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b" class="ui-nodisc-icon">
+                <h1>Settings</h1>
+                <a href="#index" data-icon="back" data-iconpos="notext"
+                   data-transition="slide" data-direction="reverse">Back</a>
+            </div>
+            <p>
+            <div data-role="content" class="center90">
+                <p>
+                <label>
+                    <input id="restoreLast" name="restoreLast" type="checkbox">Start with last alias
+                </label>
+            </div><!-- data-role="content"-->
+
+         </div><!-- data-role="page" -->
+
     </body>
 </html>
