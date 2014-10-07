@@ -157,8 +157,8 @@
         $("#aliasList").on("click", "li .liAlias", clickAlias);
         $("#aliasList").on("click", "li .liDelete", deleteAlias);
 
-        $("#restoreLast").click(function () {
-            model.restoreLast = $(this).is(":checked");
+        $("#rememberLast").click(function () {
+            model.rememberLast = $(this).is(":checked");
         });
 
         model.getLocalStorage(function () {
@@ -166,8 +166,7 @@
             $("#version").text(model.version);
             $("#alias").val(model.alias);
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
-            console.log(model.restoreLast);
-            $("#restoreLast").prop("checked", model.restoreLast);
+            $("#rememberLast").prop("checked", model.rememberLast);
             updateAliasList();
             updateUI();
             if (model.alias) {

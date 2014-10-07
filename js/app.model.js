@@ -3,18 +3,32 @@ var app = app || {};
 app.model = function () {
 
     "use strict";
+    var _alias = "";
+    var _pwlen = 16;
     var _aliases = [];
-    var _restoreLast = true;
+    var _rememberLast = true;
 
     var o = {
-        alias: "",
         secret: "",
-        pwlen: 16
     };
 
     Object.defineProperties(o, {
         "version": {
             value: chrome.runtime.getManifest().version
+        },
+        "alias": {
+            get: function () { return _alias; },
+            set: function (newValue) {
+                _alias = newValue;
+                chrome.storage.local.set({ "lastAlias": newValue }, null);
+            }
+        },
+        "pwlen": {
+            get: function () { return _pwlen; },
+            set: function (newValue) {
+                _pwlen = newValue;
+                chrome.storage.local.set({ "lastPwlen": newValue }, null);
+            }
         },
         "password": {
             get: function () {
@@ -33,38 +47,31 @@ app.model = function () {
                 });
             }
         },
-        "restoreLast": {
-            get: function () { return _restoreLast; },
+        "rememberLast": {
+            get: function () { return _rememberLast; },
             set: function (newValue) {
-                _restoreLast = newValue;
-                chrome.storage.local.set({ "restoreLast": _restoreLast }, null);
+                _rememberLast = newValue;
+                chrome.storage.local.set({ "rememberLast": _rememberLast }, null);
             }
         }
     });
 
     o.addAlias = function () {
+        var i,l;
         if (/\s/.test(this.alias)) {
             throw new Error("addAlias: alias contains white space");
         }
+
         // first try to update pwlen of existing alias
         var aliasIsNew = true;
-        for (var i = 0, l = _aliases.length; i < l; i++) {
+        for (i = 0, l = _aliases.length; i < l; i++) {
             if (_aliases[i].alias === this.alias) {
                 _aliases[i].pwlen = this.pwlen;
-                if (this.restoreLast) {
-                    _aliases[i].last = 1;
-                }
                 aliasIsNew = false;
-            } else {
-                delete _aliases[i].last;
             }
         }
         if (aliasIsNew) {
-            if (this.restoreLast) {
-                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
-            } else {
-                _aliases.push({"alias": this.alias, "pwlen": this.pwlen});
-            }
+            _aliases.push({"alias": this.alias, "pwlen": this.pwlen});
         }
         chrome.storage.local.set({ "aliases": _aliases }, null);
     };
@@ -80,18 +87,18 @@ app.model = function () {
 
     o.getLocalStorage = function (callback) {
         var that = this;
-        chrome.storage.local.get(["aliases", "restoreLast"], function (obj) {
+        chrome.storage.local.get(["aliases", "lastAlias", "lastPwlen", "rememberLast"], function (obj) {
+            if (obj.hasOwnProperty("rememberLast")) {
+                _rememberLast = obj.rememberLast;
+            }
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
                     _aliases.push(item);
-                    if (item.last) {
-                        that.alias = item.alias;
-                        that.pwlen = item.pwlen;
-                    }
                 });
             }
-            if (obj.hasOwnProperty("restoreLast")) {
-                _restoreLast = obj.restoreLast;
+            if (_rememberLast && obj.lastAlias && obj.lastPwlen) {
+                that.alias = obj.lastAlias;
+                that.pwlen = obj.lastPwlen;
             }
             callback();
         });
