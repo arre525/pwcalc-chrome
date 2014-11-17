@@ -3,7 +3,7 @@ pwcalc-chrome
 
 Google Chrome app to calculate strong cryptographic passwords
 
-![ScreenShot](https://github.com/pmorjan/pwcalc-chrome/raw/master/pwcalc-chrome.png)
+![ScreenShot](img/pwcalc.png)
 
 Available on the [Chrome Web Store](
 https://chrome.google.com/webstore/detail/gfdaokhcoidlgljipinbbcafapmmdanb
