@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# Calculate passwords like pwcalc in Chrome
+#!/bin/sh
 #
 # Usage:
 #   pwcalc.sh <alias> [length]
@@ -9,16 +7,25 @@
 #   pwcalc.sh gmail.com 8
 #
 
-ALIAS="$1"
-LENGTH="${2:-16}"
+pwcalc() {
+    local ALIAS="$1"
+    local LENGTH="${2:-16}"
 
-case "`uname -s`" in
-    Darwin) SHASUM=shasum;;  # MacOS
-    *)      SHASUM=sha1sum;; # Linux
-esac
+    case "`uname -s`" in
+        Linux)  SHASUM=sha1sum;; # Linux
+        *)      SHASUM=shasum;;  # MacOS, *BSD
+    esac
 
-test -z "$ALIAS" && read -p "# enter alias: " ALIAS
-read -s -p "# enter secret: " SECRET
-echo
-echo -n "${SECRET}${ALIAS}" | $SHASUM | xxd -r -p | base64 | colrm $((LENGTH +1))
+    test -z "$ALIAS" && read -p "# enter alias: " ALIAS
+    stty -echo
+    read -p "# enter secret: " SECRET
+    stty echo
+    echo;echo
+    /bin/echo -n "${SECRET}${ALIAS}" \
+        | $SHASUM \
+        | xxd -r -p \
+        | base64 \
+        | colrm $((LENGTH +1))
+}
 
+pwcalc $*
