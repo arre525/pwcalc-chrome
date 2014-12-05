@@ -11,10 +11,7 @@ pwcalc() {
     local ALIAS="$1"
     local LENGTH="${2:-16}"
 
-    case "`uname -s`" in
-        Linux)  SHASUM=sha1sum;; # Linux
-        *)      SHASUM=shasum;;  # MacOS, *BSD
-    esac
+    SHASUM=$(which shasum 2>/dev/null || which sha1sum 2>/dev/null)
 
     test -z "$ALIAS" && read -p "# enter alias: " ALIAS
     stty -echo
