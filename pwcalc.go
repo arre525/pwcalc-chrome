@@ -17,7 +17,7 @@ func main() {
 
 	str := []byte(strings.TrimSpace(secret) + strings.TrimSpace(alias))
 	hash := fmt.Sprintf("%s", sha1.Sum(str))
-    base64 := base64.StdEncoding.EncodeToString([]byte(hash))[0:16]
+	base64 := base64.StdEncoding.EncodeToString([]byte(hash))[0:16]
 
 	fmt.Println(base64)
 }
