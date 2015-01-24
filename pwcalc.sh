@@ -25,4 +25,4 @@ pwcalc() {
         | colrm $((LENGTH +1))
 }
 
-pwcalc $*
+pwcalc "$@"
