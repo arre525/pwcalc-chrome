@@ -4,6 +4,7 @@ app.model = function () {
 
     "use strict";
     var _aliases = [];
+    var _rememberLast = true;
 
     var o = {
         alias: "",
@@ -31,6 +32,13 @@ app.model = function () {
                         0 : (l.alias.toLowerCase() < r.alias.toLowerCase() ? -1 : 1);
                 });
             }
+        },
+        "rememberLast": {
+            get: function () { return _rememberLast; },
+            set: function (newValue) {
+                _rememberLast = newValue;
+                chrome.storage.local.set({ "rememberLast": _rememberLast }, null);
+            }
         }
     });
 
@@ -43,12 +51,20 @@ app.model = function () {
         for (var i = 0, l = _aliases.length; i < l; i++) {
             if (_aliases[i].alias === this.alias) {
                 _aliases[i].pwlen = this.pwlen;
+                if (this.rememberLast) {
+                    _aliases[i].last = 1;
+                }
                 aliasIsNew = false;
-                break;
+            } else {
+                delete _aliases[i].last;
             }
         }
         if (aliasIsNew) {
-            _aliases.push({ "alias": this.alias, "pwlen": this.pwlen });
+            if (this.rememberLast) {
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
+            } else {
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen});
+            }
         }
         chrome.storage.local.set({ "aliases": _aliases }, null);
     };
@@ -63,10 +79,18 @@ app.model = function () {
     };
 
     o.getLocalStorage = function (callback) {
-        chrome.storage.local.get(["aliases"], function (obj) {
+        var that = this;
+        chrome.storage.local.get(["aliases", "rememberLast"], function (obj) {
+            if (obj.hasOwnProperty("rememberLast")) {
+                _rememberLast = obj.rememberLast;
+            }
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
                     _aliases.push(item);
+                    if (_rememberLast && item.last) {
+                        that.alias = item.alias;
+                        that.pwlen = item.pwlen;
+                    }
                 });
             }
             callback();

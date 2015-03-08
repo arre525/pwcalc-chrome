@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="js/libs/jquery-mobile/jquery.mobile-1.4.3.min.css" />
+        <link rel="stylesheet" href="js/libs/jquery-mobile/jquery.mobile-1.4.4.min.css" />
         <link rel="stylesheet" href="css/app.css" />
         <title>SHA1 Password Calculator</title>
     </head>
 
     <body>
         <script type="text/javascript" src="js/libs/jquery/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/libs/jquery-mobile/jquery.mobile-1.4.3.min.js"></script>
+        <script type="text/javascript" src="js/libs/jquery-mobile/jquery.mobile-1.4.4.min.js"></script>
         <script type="text/javascript" src="js/libs/qrcode.js"></script>
         <script type="text/javascript" src="js/libs/sha1.js"></script>
         <script type="text/javascript" src="js/app.model.js"></script>
@@ -17,10 +17,26 @@
 
         <div data-role="page" data-theme="b" id="index" class="index">
 
+            <div data-role="popup" id="popupMenu" data-theme="b" data-history="false" data-position-to="window" class="popupMenu">
+                <ul data-role="listview" data-icon="false" data-inset="false">
+                    <li class="menu-item">
+                        <a href="#settings" data-transition="slide">
+                            Settings
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#about" data-transition="slide">
+                            About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b"
                  id="header" data-fullscreen="false">
                 <img src="img/pwcalc_32.png" alt="pwcalc" class="ui-btn-left icon-left"/>
-                <a href="#about" data-icon="info" data-iconpos="notext" data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" ></a>
+                <a href="#popupMenu" data-rel="popup" data-icon="bars" data-iconpos="notext" id="btMenu"
+                   data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" >Popup</a>
                 <h2>SHA1 Password Calculator</h2>
             </div>
 
@@ -45,16 +61,27 @@
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
+                            <option value="7">7</option>
                             <option value="8">8</option>
+                            <option value="9">9</option>
                             <option value="10">10</option>
+                            <option value="11">11</option>
                             <option value="12">12</option>
+                            <option value="13">13</option>
                             <option value="14">14</option>
+                            <option value="15">15</option>
                             <option value="16">16</option>
+                            <option value="17">17</option>
                             <option value="18">18</option>
+                            <option value="19">19</option>
                             <option value="20">20</option>
+                            <option value="21">21</option>
                             <option value="22">22</option>
+                            <option value="23">23</option>
                             <option value="24">24</option>
+                            <option value="25">25</option>
                             <option value="26">26</option>
+                            <option value="27">27</option>
                             <option value="28">28</option>
                         </select>
                     </div>
@@ -215,5 +242,23 @@
                 </div>
             </div><!-- data-role="content" -->
         </div><!-- data-role="page" -->
+
+
+        <div data-role="page" data-theme="b"  id="settings" class="settings" >
+            <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b" class="ui-nodisc-icon">
+                <h1>Settings</h1>
+                <a href="#index" data-icon="back" data-iconpos="notext"
+                   data-transition="slide" data-direction="reverse">Back</a>
+            </div>
+            <p>
+            <div data-role="content" class="center80">
+                <p>
+                <label>
+                    <input id="rememberLast" name="rememberLast" type="checkbox">Remember last alias
+                </label>
+            </div><!-- data-role="content"-->
+
+         </div><!-- data-role="page" -->
+
     </body>
 </html>

@@ -78,7 +78,7 @@
         $("#alias").val(model.alias);
         $("#pwlen").val(model.pwlen).selectmenu("refresh");
         $("#aliasCollapse").collapsible("collapse");
-        $("#alias").focus();
+        $("#alias").focus();    // work-around clear-btn
         $("#secret").focus();
         updateUI();
     }
@@ -157,13 +157,24 @@
         $("#aliasList").on("click", "li .liAlias", clickAlias);
         $("#aliasList").on("click", "li .liDelete", deleteAlias);
 
+        $("#rememberLast").click(function () {
+            model.rememberLast = $(this).is(":checked");
+        });
+
         model.getLocalStorage(function () {
             $(":input").removeClass("ui-state-disabled");
             $("#version").text(model.version);
+            $("#alias").val(model.alias);
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
+            $("#rememberLast").prop("checked", model.rememberLast);
             updateAliasList();
             updateUI();
-            $("#alias").focus();
+            if (model.alias) {
+                $("#alias").focus(); // work-around clear-btn
+                $("#secret").focus();
+            } else {
+                $("#alias").focus();
+            }
         });
 
     });
