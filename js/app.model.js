@@ -37,6 +37,12 @@ app.model = function () {
             get: function () { return _rememberLast; },
             set: function (newValue) {
                 _rememberLast = newValue;
+                if (newValue === false) {
+                    for (var i = 0, l = _aliases.length; i < l; i++) {
+                        delete _aliases[i].last;
+                    }
+                    chrome.storage.local.set({ "aliases": _aliases }, null);
+                }
                 chrome.storage.local.set({ "rememberLast": _rememberLast }, null);
             }
         }
