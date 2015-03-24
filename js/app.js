@@ -62,7 +62,7 @@
         $("#progress canvas").removeClass('canvas-hidden').addClass('canvas-full');
         timer = setInterval(function () {
             $("#c" +cnt).removeClass('canvas-full').addClass('canvas-empty');
-            if (cnt++ > 8) {
+            if (cnt++ > 13) {
                 model.secret = "";
                 $("#secret").val("");
                 updateUI();
@@ -71,7 +71,7 @@
                 $("#secret").focus();
                 stopTimer();
             }
-        }, 1500);
+        }, 1000);
     }
 
     var stopTimer = function () {
