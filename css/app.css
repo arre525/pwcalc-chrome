@@ -207,3 +207,27 @@ div.ui-input-text.ui-focus:before {
     max-height: 174px;
     overflow: auto;
 }
+
+.progress {
+    position: absolute;
+    bottom: 25px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}
+
+.canvas-full {
+    border:1px solid #2ad;
+    background-color: #2ad;
+}
+
+.canvas-empty {
+    border:1px solid #2ad;
+    background-color: transparent;
+}
+
+.canvas-hidden {
+    border:1px solid transparent;
+    background-color: transparent;
+}
+

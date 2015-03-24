@@ -5,6 +5,7 @@ app.model = function () {
     "use strict";
     var _aliases = [];
     var _rememberLast = true;
+    var _autoExpire = true;
 
     var o = {
         alias: "",
@@ -44,6 +45,13 @@ app.model = function () {
                     chrome.storage.local.set({ "aliases": _aliases }, null);
                 }
                 chrome.storage.local.set({ "rememberLast": _rememberLast }, null);
+            }
+        },
+        "autoExpire": {
+            get: function () { return _autoExpire; },
+            set: function (newValue) {
+                _autoExpire = newValue;
+                chrome.storage.local.set({ "autoExpire": _autoExpire }, null);
             }
         }
     });
@@ -86,9 +94,12 @@ app.model = function () {
 
     o.getLocalStorage = function (callback) {
         var that = this;
-        chrome.storage.local.get(["aliases", "rememberLast"], function (obj) {
+        chrome.storage.local.get(["aliases", "autoExpire", "rememberLast"], function (obj) {
             if (obj.hasOwnProperty("rememberLast")) {
                 _rememberLast = obj.rememberLast;
+            }
+            if (obj.hasOwnProperty("autoExpire")) {
+                _autoExpire = obj.autoExpire;
             }
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
