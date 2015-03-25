@@ -2,11 +2,12 @@
 
     "use strict";
 
-    var PASSWORD_DUMMY = "<--- password --->";
+    var PASSWORD_DUMMY = "[--- password ---]";
     var QRCODE_DUMMY   = "SHA1 Password Calculator";
     var KEY_CODE_SPACE = 32;
     var KEY_CODE_RETURN = 13;
     var model = app.model();
+    var timer;
 
     var updateUI = function () {
         $("#message").text("");
@@ -55,6 +56,31 @@
         $("#aliasList").listview("refresh");
     };
 
+    var startTimer = function () {
+        var cnt = 0;
+        stopTimer();
+        $("#progress canvas").removeClass('canvas-hidden').addClass('canvas-full');
+        timer = setInterval(function () {
+            $("#c" +cnt).removeClass('canvas-full').addClass('canvas-empty');
+            if (cnt++ > 13) {
+                model.secret = "";
+                $("#secret").val("");
+                updateUI();
+                copyToClipboard(' ');
+                $("#alias").focus();
+                $("#secret").focus();
+                stopTimer();
+            }
+        }, 1000);
+    }
+
+    var stopTimer = function () {
+        $("#progress canvas").removeClass('canvas-full canvas-empty').addClass('canvas-hidden');
+        if (timer) {
+            clearInterval(timer);
+        }
+    }
+
     var copy = function () {
         if (model.password.length < 1) {
             return;
@@ -63,6 +89,9 @@
         model.addAlias();
         updateAliasList();
         popupText("Password coppied to clipboard");
+        if (model.autoExpire) {
+            startTimer();
+        }
     }
 
     var deleteAlias = function (event) {
@@ -107,6 +136,7 @@
     };
 
     $(document).ready(function () {
+        $("a[href], input, select, button").on("focus", stopTimer);
 
         $("#alias, #secret").on("input", function () {
              model[this.name] = this.value;
@@ -131,7 +161,9 @@
                 event.preventDefault();
                 var $focus = $( document.activeElement );
                 $("#btCopy").trigger("click");
-                $focus.focus();
+                if (!model.autoExpire) {
+                    $focus.focus();
+                }
             }
         });
 
@@ -160,6 +192,9 @@
         $("#rememberLast").click(function () {
             model.rememberLast = $(this).is(":checked");
         });
+        $("#autoExpire").click(function () {
+            model.autoExpire = $(this).is(":checked");
+        });
 
         model.getLocalStorage(function () {
             $(":input").removeClass("ui-state-disabled");
@@ -167,6 +202,7 @@
             $("#alias").val(model.alias);
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
             $("#rememberLast").prop("checked", model.rememberLast);
+            $("#autoExpire").prop("checked", model.autoExpire);
             updateAliasList();
             updateUI();
             if (model.alias) {
