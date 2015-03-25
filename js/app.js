@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var PASSWORD_DUMMY = "<--- password --->";
+    var PASSWORD_DUMMY = "[--- password ---]";
     var QRCODE_DUMMY   = "SHA1 Password Calculator";
     var KEY_CODE_SPACE = 32;
     var KEY_CODE_RETURN = 13;
@@ -136,7 +136,7 @@
     };
 
     $(document).ready(function () {
-        $("*").on("focus", stopTimer);
+        $("a[href], input, select, button").on("focus", stopTimer);
 
         $("#alias, #secret").on("input", function () {
              model[this.name] = this.value;
