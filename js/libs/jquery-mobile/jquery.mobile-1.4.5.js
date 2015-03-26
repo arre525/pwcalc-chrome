@@ -2951,7 +2951,7 @@ if ( !$.support.boxShadow ) {
 			// Ensuring each history entry has a state object means that onPopState()
 			// will always trigger our hashchange callback even when a hashchange event
 			// is not fired.
-			window.history.replaceState( state, state.title || document.title, href );
+			// window.history.replaceState( state, state.title || document.title, href );
 
 			return state;
 		},
