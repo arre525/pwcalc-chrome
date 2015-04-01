@@ -6,15 +6,16 @@
     var QRCODE_DUMMY   = "SHA1 Password Calculator";
     var KEY_CODE_SPACE = 32;
     var KEY_CODE_RETURN = 13;
+    var KEY_CODE_QUOTE = 222;
     var model = app.model();
     var timer;
 
     var updateUI = function () {
         $("#message").text("");
 
-        if (/\s/.test(model.alias)) {
-            // white space found
-            $("#message").text("Alias contains white space");
+        if (/\s|\"|\'/.test(model.alias)) {
+            // white space / quote sign found
+            $("#message").text("Alias contains white space or quote sign");
             $("#password").addClass("password-disabled").text(PASSWORD_DUMMY);
             $("#btCopy").addClass("ui-state-disabled").attr("tabindex", "-1");
         } else if ( model.password.length < 1 ) {
@@ -72,14 +73,14 @@
                 stopTimer();
             }
         }, 1000);
-    }
+    };
 
     var stopTimer = function () {
         $("#progress canvas").removeClass('canvas-full canvas-empty').addClass('canvas-hidden');
         if (timer) {
             clearInterval(timer);
         }
-    }
+    };
 
     var copy = function () {
         if (model.password.length < 1) {
@@ -92,14 +93,14 @@
         if (model.autoExpire) {
             startTimer();
         }
-    }
+    };
 
     var deleteAlias = function (event) {
         event.stopPropagation();
         model.deleteAlias($(this).prev().data("alias"));
         updateAliasList();
         $("#aliasCount").text(model.aliases.length);
-    }
+    };
 
     var clickAlias = function () {
         model.alias = $(this).data("alias");
@@ -110,7 +111,7 @@
         $("#alias").focus();    // work-around clear-btn
         $("#secret").focus();
         updateUI();
-    }
+    };
 
     var popupText = function (text) {
         var $div = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all">'
@@ -129,7 +130,7 @@
     var copyToClipboard = function (text) {
         var $textarea = $("<textarea/>")
             .appendTo("body")
-            .text(text)
+            .val(text)
             .select();
         document.execCommand("copy", false, null);
         $textarea.remove();
@@ -168,7 +169,11 @@
         });
 
         $("#alias").keydown(function (event) {
-            return event.keyCode === KEY_CODE_SPACE ? false : true;
+            if (event.keyCode === KEY_CODE_SPACE || event.keyCode === KEY_CODE_QUOTE) {
+                return false;
+            } else {
+                return true;
+            }
         });
 
         $(".ui-input-clear, #btCopy").keydown(function (event) {
