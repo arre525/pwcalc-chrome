@@ -57,8 +57,8 @@ app.model = function () {
     });
 
     o.addAlias = function () {
-        if (/\s/.test(this.alias)) {
-            throw new Error("addAlias: alias contains white space");
+        if (/\s|\"|\'/.test(this.alias)) {
+            throw new Error("addAlias: alias contains white space or quote sign");
         }
         // first try to update pwlen of existing alias
         var aliasIsNew = true;
