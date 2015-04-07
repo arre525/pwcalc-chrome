@@ -2,7 +2,7 @@
     "short_name": "Pwcalc",
     "name": "SHA1 Password Calculator",
     "description": "Create strong cryptographic passwords",
-    "version": "0.9.1",
+    "version": "0.9.2",
     "manifest_version": 2,
     "offline_enabled": true,
     "app": {
