@@ -77,9 +77,6 @@
                 model.secret = "";
                 $("#secret").val("");
                 updateUI();
-                copyToClipboard(' ');
-                $("#alias").focus();
-                $("#secret").focus();
                 stopTimer();
             }
         }, 1000);
@@ -89,6 +86,10 @@
         resetCanvas();
         if (timer) {
             clearInterval(timer);
+            timer = null;
+            copyToClipboard(' ');
+            $("#alias").focus();
+            $("#secret").focus();
         }
     };
 
