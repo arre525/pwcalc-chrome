@@ -57,10 +57,20 @@
         $("#aliasList").listview("refresh");
     };
 
+    var resetCanvas = function () {
+        if (model.autoExpire) {
+            $("#progress canvas").removeClass('canvas-full canvas-hidden')
+                                 .addClass('canvas-empty');
+        } else {
+            $("#progress canvas").removeClass('canvas-full canvas-empty')
+                                 .addClass('canvas-hidden');
+        }
+    };
+
     var startTimer = function () {
         var cnt = 0;
         stopTimer();
-        $("#progress canvas").removeClass('canvas-hidden').addClass('canvas-full');
+        $("#progress canvas").removeClass('canvas-empty').addClass('canvas-full');
         timer = setInterval(function () {
             $("#c" +cnt).removeClass('canvas-full').addClass('canvas-empty');
             if (cnt++ > 13) {
@@ -76,7 +86,7 @@
     };
 
     var stopTimer = function () {
-        $("#progress canvas").removeClass('canvas-full canvas-empty').addClass('canvas-hidden');
+        resetCanvas();
         if (timer) {
             clearInterval(timer);
         }
@@ -199,6 +209,7 @@
         });
         $("#autoExpire").click(function () {
             model.autoExpire = $(this).is(":checked");
+            resetCanvas();
         });
 
         model.getLocalStorage(function () {
@@ -210,6 +221,7 @@
             $("#autoExpire").prop("checked", model.autoExpire);
             updateAliasList();
             updateUI();
+            resetCanvas();
             if (model.alias) {
                 $("#alias").focus(); // work-around clear-btn
                 $("#secret").focus();
