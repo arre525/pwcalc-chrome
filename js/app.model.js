@@ -6,11 +6,13 @@ app.model = function () {
     var _aliases = [];
     var _rememberLast = true;
     var _autoExpire = true;
+    var _rchar = "a";
 
     var o = {
         alias: "",
         secret: "",
-        pwlen: 16
+        pwlen: 16,
+        nospecial: 0
     };
 
     Object.defineProperties(o, {
@@ -20,7 +22,11 @@ app.model = function () {
         "password": {
             get: function () {
                 if ( this.secret.length && this.alias.length && ! /\s/.test(this.alias) ) {
-                    return b64_sha1(this.secret + this.alias).substring(0, this.pwlen);
+                    var pw = b64_sha1(this.secret + this.alias).substring(0, this.pwlen);
+                    if (this.nospecial) {
+                        pw = pw.replace(/[/+=]/g, _rchar);
+                    }
+                    return pw
                 } else {
                     return "";
                 }
@@ -53,7 +59,15 @@ app.model = function () {
                 _autoExpire = newValue;
                 chrome.storage.local.set({ "autoExpire": _autoExpire }, null);
             }
+        },
+        "rchar": {
+            get: function () { return _rchar; },
+            set: function (newValue) {
+                _rchar = newValue;
+                chrome.storage.local.set({ "rchar": _rchar }, null);
+            }
         }
+
     });
 
     o.addAlias = function () {
@@ -65,6 +79,7 @@ app.model = function () {
         for (var i = 0, l = _aliases.length; i < l; i++) {
             if (_aliases[i].alias === this.alias) {
                 _aliases[i].pwlen = this.pwlen;
+                _aliases[i].nospecial = this.nospecial;
                 if (this.rememberLast) {
                     _aliases[i].last = 1;
                 }
@@ -75,9 +90,9 @@ app.model = function () {
         }
         if (aliasIsNew) {
             if (this.rememberLast) {
-                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "last": 1});
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "nospecial": this.nospecial, "last": 1});
             } else {
-                _aliases.push({"alias": this.alias, "pwlen": this.pwlen});
+                _aliases.push({"alias": this.alias, "pwlen": this.pwlen, "nospecial": this.nospecial});
             }
         }
         chrome.storage.local.set({ "aliases": _aliases }, null);
@@ -94,12 +109,15 @@ app.model = function () {
 
     o.getLocalStorage = function (callback) {
         var that = this;
-        chrome.storage.local.get(["aliases", "autoExpire", "rememberLast"], function (obj) {
+        chrome.storage.local.get(["aliases", "autoExpire", "rememberLast", "rchar"], function (obj) {
             if (obj.hasOwnProperty("rememberLast")) {
                 _rememberLast = obj.rememberLast;
             }
             if (obj.hasOwnProperty("autoExpire")) {
                 _autoExpire = obj.autoExpire;
+            }
+            if (obj.hasOwnProperty("rchar")) {
+                _rchar = obj.rchar;
             }
             if (obj.aliases) {
                 obj.aliases.forEach(function (item) {
@@ -107,6 +125,7 @@ app.model = function () {
                     if (_rememberLast && item.last) {
                         that.alias = item.alias;
                         that.pwlen = item.pwlen;
+                        that.nospecial = item.nospecial;
                     }
                 });
             }

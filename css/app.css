@@ -50,7 +50,7 @@ html body .ui-group-theme-b a,
 }
 
 .ui-focus,.ui-btn:focus {
-    border: 1px solid #2ad !important;
+    box-shadow: none !important;
 }
 
 .ui-btn.ui-state-disabled {
@@ -231,3 +231,11 @@ div.ui-input-text.ui-focus:before {
     background-color: transparent;
 }
 
+.rchar-label {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.nospecial {
+    color: #22aadd !important;
+}

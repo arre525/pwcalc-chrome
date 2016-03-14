@@ -49,10 +49,12 @@
         for (var i = 0, l = model.aliases.length; i < l; i += 1) {
             var o = model.aliases[i];
             $("#aliasList").append(
-                '<li><a href="#" class="liAlias" data-alias="' + o.alias +
-                '" data-pwlen="' + o.pwlen + '"  >' +
-                 o.alias + '<span class="ui-li-count">' +
-                 o.pwlen + '</span></a><a href="#" class="liDelete"></a>');
+                '<li><a href="#" class="liAlias" data-alias="'
+                + o.alias + '" data-pwlen="'
+                + o.pwlen + '" data-nospecial="'
+                + o.nospecial + '"  >'
+                + o.alias + '<span class="ui-li-count ' + (o.nospecial ? 'nospecial' : '') + '">'
+                + o.pwlen + '</span></a><a href="#" class="liDelete"></a>');
         }
         $("#aliasList").listview("refresh");
     };
@@ -105,11 +107,13 @@
     var clickAlias = function () {
         model.alias = $(this).data("alias");
         model.pwlen = $(this).data("pwlen");
+        model.nospecial = parseInt($(this).data("nospecial"));
         $("#alias").val(model.alias);
         $("#pwlen").val(model.pwlen).selectmenu("refresh");
         $("#aliasCollapse").collapsible("collapse");
         $("#alias").focus();    // work-around clear-btn
         $("#secret").focus();
+        $("#nospecial").prop("checked", model.nospecial).checkboxradio("refresh");
         updateUI();
     };
 
@@ -200,6 +204,15 @@
         $("#autoExpire").click(function () {
             model.autoExpire = $(this).is(":checked");
         });
+        $("#rchar").on("input", function () {
+            model.rchar = this.value;
+            updateUI();
+        });
+        $("#nospecial").click(function () {
+            model.nospecial = $(this).is(":checked") ? 1 : 0;
+            updateUI();
+        });
+
 
         model.getLocalStorage(function () {
             $(":input").removeClass("ui-state-disabled");
@@ -208,6 +221,8 @@
             $("#pwlen").val(model.pwlen).selectmenu("refresh");
             $("#rememberLast").prop("checked", model.rememberLast);
             $("#autoExpire").prop("checked", model.autoExpire);
+            $("#rchar").val(model.rchar);
+            $("#nospecial").prop("checked", model.nospecial).checkboxradio("refresh");
             updateAliasList();
             updateUI();
             if (model.alias) {

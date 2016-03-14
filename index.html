@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="js/libs/jquery-mobile/jquery.mobile-1.4.5.css" />
         <link rel="stylesheet" href="css/app.css" />
-        <title>SHA1 Password Calculator</title>
+        <title>SHA1 Password Calculator (dev)</title>
     </head>
 
     <body>
@@ -37,17 +37,17 @@
                 <img src="img/pwcalc_32.png" alt="pwcalc" class="ui-btn-left icon-left"/>
                 <a href="#popupMenu" data-rel="popup" data-icon="bars" data-iconpos="notext" id="btMenu"
                    data-shadow="false" data-icon-shadow="false" class="ui-btn-right ui-nodisc-icon" >Popup</a>
-                <h2>SHA1 Password Calculator</h2>
+                <h2>SHA1 Password Calculator (dev)</h2>
             </div>
 
-            <div data-role="content" class="ui-nodisc-icon center80">
+            <div data-role="content" class="ui-nodisc-icon center90">
                 <input id="alias" name="alias" type="text" class="input ui-state-disabled" placeholder="alias"  autocomplete="off"
                        data-clear-btn="true" spellcheck="false" data-corners="false" />
                 <input id="secret" name="secret" type="password" class="input ui-state-disabled" placeholder="secret" autocomplete="off"
                        data-clear-btn="true" data-corners="false">
                 <p id="password" class="password">
 
-                <div class="ui-grid-a center80">
+                <div class="ui-grid-b">
                     <div class="ui-block-a">
                         <a href="#" id="btCopy" class="ui-btn ui-corner-all ui-state-disabled">
                             Copy
@@ -84,6 +84,10 @@
                             <option value="27">27</option>
                             <option value="28">28</option>
                         </select>
+                    </div>
+                    <div class="ui-block-c">
+                        <label>
+                        <input id="nospecial" name="nospecial" type="checkbox">no[/+=]</label>
                     </div>
                 </div>
                 <br>
@@ -269,13 +273,81 @@
             </div>
             <p>
             <div data-role="content" class="center80">
-                <p>
                 <label>
                     <input id="rememberLast" name="rememberLast" type="checkbox">Remember last alias
                 </label>
                 <label>
                     <input id="autoExpire" name="autoExpire" type="checkbox">Auto expire password
                 </label>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a rchar-label">replace [/=+] by:</div>
+                    <div class="ui-block-b">
+                        <select id="rchar" name="rchar" data-native-menu="true" class="ui-state-disabled">
+                            <option value="a">a</option>
+                            <option value="b">b</option>
+                            <option value="c">c</option>
+                            <option value="d">d</option>
+                            <option value="e">e</option>
+                            <option value="f">f</option>
+                            <option value="g">g</option>
+                            <option value="h">h</option>
+                            <option value="i">i</option>
+                            <option value="j">j</option>
+                            <option value="k">k</option>
+                            <option value="l">l</option>
+                            <option value="m">m</option>
+                            <option value="n">n</option>
+                            <option value="o">o</option>
+                            <option value="p">p</option>
+                            <option value="q">q</option>
+                            <option value="r">r</option>
+                            <option value="s">s</option>
+                            <option value="t">t</option>
+                            <option value="u">u</option>
+                            <option value="v">v</option>
+                            <option value="w">w</option>
+                            <option value="x">x</option>
+                            <option value="y">y</option>
+                            <option value="z">z</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                </div>
             </div><!-- data-role="content"-->
 
          </div><!-- data-role="page" -->

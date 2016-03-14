@@ -1,6 +1,6 @@
 {
-    "short_name": "Pwcalc",
-    "name": "SHA1 Password Calculator",
+    "short_name": "Pwcalc-dev",
+    "name": "SHA1 Password Calculator (dev)",
     "description": "Create strong cryptographic passwords",
     "version": "0.9.2",
     "manifest_version": 2,
